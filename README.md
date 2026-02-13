@@ -1,25 +1,39 @@
-📌 AI Integration Spring Boot Application
+📌 Spring Boot AI Integration Application
 📖 Overview
 
-This project demonstrates how AI capabilities can be integrated into a Spring Boot backend application using OpenAI APIs.
+This project demonstrates how Artificial Intelligence (AI) capabilities can be integrated into a Spring Boot backend application.
 
-The application exposes REST endpoints for:
+The application exposes REST APIs that provide AI-powered features such as:
 
-Question & Answer service
+✅ Question & Answer service
 
-Text Summarization
+✅ Text Summarization
 
-🏗 Architecture
+The application integrates with the OpenAI API to process user input and generate intelligent responses.
 
-The application follows layered architecture:
+🏗 Architecture Overview
 
-Controller → Service → AI Client → OpenAI API
+The application follows a clean layered architecture:
 
-Technologies used:
+Controller → Service → AI Client → External AI API
 
-Java 21
+Package Structure
+com.example.aiapp
+│
+├── controller        # REST Controllers
+├── service           # Business Logic Layer
+├── client            # OpenAI API Integration
+├── dto               # Request & Response DTOs
+├── exception         # Custom Exceptions & Global Handler
+└── AiAppApplication  # Main Application Class
 
-Spring Boot 3+
+Technologies Used
+
+Java 17+
+
+Spring Boot
+
+Spring Web
 
 WebClient
 
@@ -31,29 +45,42 @@ OpenAI API
 
 🤖 AI Service Used
 
+This application integrates with:
+
 OpenAI Chat Completions API
 
-Model:
+Model used:
 
 gpt-4o-mini
 
+
+The AI service is called via Spring WebClient.
+
 🚀 Setup Instructions
- Clone Repository
-git clone https://github.com/your-username/ai-spring-boot-app.git
+1️⃣ Clone the Repository
+git clone https://github.com/Nalinityagi/Spring-Boot-AI-Integration-Application.git
+cd Spring-Boot-AI-Integration-Application
 
- Set Environment Variable
 
-Windows:
+Or download as ZIP and extract.
 
-setx OPENAI_API_KEY "your-api-key"
+2️⃣ Set Environment Variable (Required)
+
+You must configure your OpenAI API key.
+
+On Windows (PowerShell):
+setx OPENAI_API_KEY "your_openai_api_key_here"
 
 
 Restart terminal after setting.
 
- Build Project
+On Mac/Linux:
+export OPENAI_API_KEY="your_openai_api_key_here"
+
+3️⃣ Build the Project
 mvn clean install
 
- Run Application
+4️⃣ Run the Application
 mvn spring-boot:run
 
 
@@ -62,46 +89,81 @@ Application runs at:
 http://localhost:8080
 
 📡 API Endpoints
- Ask Question
+🔹 1. Question & Answer API
+
+Endpoint
 
 POST /api/v1/ai/ask
 
-Request:
+
+Request Body
 
 {
-  "question": "What is Java?"
+  "question": "What is Spring Boot?"
 }
 
 
-Response:
+Response
 
 {
-  "answer": "Java is a programming language..."
+  "answer": "Spring Boot is a Java-based framework that simplifies backend application development..."
 }
 
- Summarize Text
+🔹 2. Text Summarization API
+
+Endpoint
 
 POST /api/v1/ai/summarize
 
-Request:
+
+Request Body
 
 {
-  "text": "Long paragraph here..."
+  "text": "Spring Boot simplifies development by providing auto-configuration and embedded servers..."
 }
 
 
-Response:
+Response
 
 {
-  "summary": "Short summary here..."
+  "summary": "Spring Boot simplifies Java development through auto-configuration."
 }
 
-❗ Exception Handling
+🛡 Validation & Exception Handling
 
-The application uses a GlobalExceptionHandler to manage:
+The application uses:
 
-Validation errors
+@Valid for request validation
 
-AI communication errors
+Custom AiServiceException
 
-Unexpected runtime exceptions
+Global exception handler using @RestControllerAdvice
+
+Handled scenarios:
+
+Invalid input (400)
+
+AI communication failure (500)
+
+Unexpected runtime errors
+
+🧪 Testing the APIs
+
+You can test using:
+
+Postman
+
+Curl
+
+Swagger (if added)
+
+Example using curl:
+
+curl -X POST http://localhost:8080/api/v1/ai/ask \
+-H "Content-Type: application/json" \
+-d '{"question":"What is Java?"}'
+
+🔒 Security Note
+
+The OpenAI API key is NOT stored in the repository.
+It must be configured using environment variables.
